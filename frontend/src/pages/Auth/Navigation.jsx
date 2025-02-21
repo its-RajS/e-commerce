@@ -6,27 +6,47 @@ import {
   AiOutlineLogin,
   AiOutlineUserAdd,
   AiOutlineShoppingCart,
-  AiFillShopping,
+  // AiFillShopping,
 } from "react-icons/ai";
-
 import { FaHeart } from "react-icons/fa";
 import "./Navigation.css";
+// import { useSelector, useDispatch } from "react-redux";
+// import { useLoginMutation } from "../../redux/api/usersApiSlice";
+// import { logout } from "../../redux/features/auth/authSlice";
 
 const Navigation = () => {
+  // const { userInfo } = useSelector((state) => state.auth);
+
   //hooks for the dropdown and the sidebar
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
 
   //function to toggle the dropdown and the sidebar
+  // const toggleSidebar = () => {
+  //   setShowSidebar(!showSidebar);
+  // };
+  // const closeSidebar = () => {
+  //   setShowSidebar(false);
+  // };
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
-  const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
-  };
-  const closeSidebar = () => {
-    setShowSidebar(false);
-  };
+
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+
+  // const [logoutApiCall] = useLoginMutation();
+
+  // const logoutHandler = async () => {
+  //   try {
+  //     await logoutApiCall().unwrap();
+  //     dispatch(logout());
+  //     navigate("/login");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div
@@ -65,13 +85,26 @@ const Navigation = () => {
       </div>
       <div className="flex flex-col justify-center ">
         <Link
-          to="/"
+          to="/favorite"
           className="flex items-center transition-transform transform hover:translate-x-2  "
         >
           <FaHeart className="mr-2 mt-[3rem]" size={26} />
           <span className="hidden nav-item-name mt-[3rem]">FAVORITE</span>
         </Link>
       </div>
+
+      {/* <div className="relative">
+        <button
+          className="flex items-center text-gray-800 focus:outline-none "
+          onClick={toggleDropdown}
+        >
+          {userInfo ? (
+            <span className="text-white">{userInfo.username}</span>
+          ) : (
+            <></>
+          )}
+        </button>
+      </div> */}
 
       <ul>
         <li>
