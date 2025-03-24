@@ -23,7 +23,7 @@ const createUser = asyncHandler(async (req, res) => {
   const newUser = new User({ username, email, password: hashedPassword });
 
   try {
-    //save the user in the db
+    //save the new user data in the db
     await newUser.save();
     //create a cookie for that user
     createToken(res, newUser._id);
@@ -45,8 +45,10 @@ const createUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   //get the email and password entered
   const { email, password } = req.body;
+
   //check for the existing user from the DB
   const existingUser = await User.findOne({ email });
+
   if (existingUser) {
     //check for the password entered and the Db password with that email
     const isPasswordValid = await brycpt.compare(
@@ -64,6 +66,7 @@ const loginUser = asyncHandler(async (req, res) => {
         email: existingUser.email,
         isAdmin: existingUser.isAdmin,
       });
+      return;
     }
   }
 });
@@ -72,7 +75,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const logoutUser = asyncHandler(async (req, res) => {
   res.cookie("jwt", {
     httpOnly: true,
-    expires: new Date(),
+    expires: new Date(0), //cookie should expire immediately
   });
 
   res.send("200"), json({ message: "Logged Out" });
@@ -84,6 +87,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
   res.status(200).json(users);
 });
 
+//User Profile
 const getCurrentUserprofile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
@@ -96,13 +100,16 @@ const getCurrentUserprofile = asyncHandler(async (req, res) => {
   }
 });
 
+//Update the User profile
 const getUpdateUserprofile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
     //to update the username value given by the user if not then it will be the same
     user.username = req.body.username || user.username;
+
     //to update the email value given by the user if not then it will be the same
     user.email = req.body.email || user.email;
+
     //to update the password value given by the user if not then it will be the same
     if (req.body.password) {
       const salt = await brycpt.genSalt(10);
@@ -110,7 +117,7 @@ const getUpdateUserprofile = asyncHandler(async (req, res) => {
       user.password = handlePassword;
     }
 
-    //save the updated user in the DB
+    //save the updated changes of the user in the DB
     const updatedUser = await user.save();
 
     res.status(200).json({
@@ -123,6 +130,7 @@ const getUpdateUserprofile = asyncHandler(async (req, res) => {
   }
 });
 
+//Delete the user by ID
 const deleteUserbyId = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -140,6 +148,7 @@ const deleteUserbyId = asyncHandler(async (req, res) => {
   }
 });
 
+//Get user by ID
 const getUserbyId = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   if (user) {
@@ -150,6 +159,7 @@ const getUserbyId = asyncHandler(async (req, res) => {
   }
 });
 
+//Update user by ID
 const updateUsetbyId = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {

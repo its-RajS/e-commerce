@@ -19,6 +19,9 @@ const authenticate = asyncHandler(async (req, res, next) => {
       res.status(401);
       throw new Error("Kindly authenticate");
     }
+  } else {
+    res.status(401);
+    throw new Error("Not authenticated, no token ");
   }
 });
 

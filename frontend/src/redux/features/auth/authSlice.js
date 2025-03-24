@@ -1,11 +1,11 @@
 // import { createSelectorCreator } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit/query/react";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = () => ({
+const initialState = {
   userInfo: localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null,
-});
+};
 
 const authSlice = createSlice({
   name: "auth",

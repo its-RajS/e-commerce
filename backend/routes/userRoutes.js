@@ -15,11 +15,12 @@ import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-//For the new User
+//For creating the new User
 router
   .route("/")
   .post(createUser)
   .get(authenticate, authorizeAdmin, getAllUsers);
+//this get method 👆 is for the Admin so to see all the users from the db
 
 //login of the user
 router.post("/auth", loginUser);

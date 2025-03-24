@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//Creating a User and Defining how the User should look like
 const userSchema = mongoose.Schema(
   {
     username: {
@@ -27,6 +28,9 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+//TimeStamps is used to give the time whenever we uses CURD operation on the user.
+
+//make model based on that schema
 const User = mongoose.model("User", userSchema);
 
 export default User;
